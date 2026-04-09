@@ -1,4 +1,9 @@
-use smds_core::{benchmark_report, load_price_column, sample_user_datasets, DataError};
+use num_bigint::BigInt;
+use multi_she_adapter::TwoPartyMultiSheEngine;
+use smds_core::{
+    benchmark_report, benchmark_report_with_engine, load_price_column, sample_user_datasets,
+    DataError, SmdsEngine,
+};
 use smds_types::{BenchmarkConfig, BenchmarkReport, ScenarioKind, UserDataset};
 
 pub fn build_scenario_datasets(
@@ -68,6 +73,30 @@ pub fn run_scenario_benchmark(
     Ok(benchmark_report(config, &datasets, seed))
 }
 
+pub fn run_scenario_benchmark_with_engine<B>(
+    engine: &SmdsEngine<B>,
+    scenario: ScenarioKind,
+    csv_path: &str,
+    num_users: usize,
+    dataset_size: usize,
+    seed: u64,
+    repetitions: usize,
+) -> Result<BenchmarkReport, DataError>
+where
+    B: TwoPartyMultiSheEngine<Ciphertext = BigInt, PartialCiphertext = BigInt, Plaintext = BigInt>,
+{
+    let datasets = build_scenario_datasets(scenario.clone(), csv_path, num_users, dataset_size, seed)?;
+    let config = BenchmarkConfig {
+        scenario,
+        seed,
+        repetitions,
+        num_users,
+        dataset_size,
+        csv_path: csv_path.to_string(),
+    };
+    Ok(benchmark_report_with_engine(engine, config, &datasets, seed))
+}
+
 pub fn run_bangalore_benchmark(
     csv_path: &str,
     num_users: usize,
@@ -88,6 +117,7 @@ pub fn run_bangalore_benchmark(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use multi_she_adapter::LocalMultiSheBackend;
     use std::fs;
     use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -148,5 +178,24 @@ mod tests {
         assert_eq!(report.dataset_summary.per_user_lengths, vec![3, 3]);
         assert_eq!(report.dataset_summary.unique_values, 1);
         assert_eq!(report.reference_ranks, report.protocol_ranks);
+    }
+
+    #[test]
+    fn generic_backend_entry_point_matches_local() {
+        let csv_path = sample_csv();
+        let engine = SmdsEngine::<LocalMultiSheBackend>::new(
+            smds_types::SmdsParams::baseline_bangalore(2, 3),
+        );
+        let report = run_scenario_benchmark_with_engine(
+            &engine,
+            ScenarioKind::BangaloreBaseline,
+            &csv_path,
+            2,
+            3,
+            11,
+            2,
+        )
+        .expect("benchmark report");
+        assert!(report.correctness);
     }
 }

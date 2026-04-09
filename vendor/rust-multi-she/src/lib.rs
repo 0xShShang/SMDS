@@ -1,4 +1,4 @@
-#![allow(non_snake_case)]
+#![allow(non_snake_case, non_camel_case_types, unused_imports, unused_variables, dead_code)]
 
 pub mod core;
 pub mod keygen;
@@ -69,4 +69,3 @@ impl<'a> From<&'a KeyGenParam> for PubParam {
         }
     }
 }
-

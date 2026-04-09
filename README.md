@@ -20,6 +20,11 @@ What is implemented now:
 - user/server/core/bench crates for the SMDS pipeline
 - CLI entry point for demo/reference/benchmark runs
 
+Feature-gated backend:
+
+- Enable `multi_she_adapter/backend-rust-multi-she` to switch from the local reference backend to the `rust-multi-she` compatibility binding.
+- The workspace patches the public git dependency to a local compatibility copy because the upstream `HEAD` currently contains an unresolved merge conflict.
+
 Repository layout:
 
 - `crates/smds_types`: shared protocol and benchmark types
@@ -42,8 +47,16 @@ Example CLI usage:
 
 ```bash
 cargo run -p smds_cli -- demo ../班加罗尔房地产价格数据集.csv
+cargo run -p smds_cli -- demo ../班加罗尔房地产价格数据集.csv rust
 cargo run -p smds_cli -- reference ../班加罗尔房地产价格数据集.csv
 cargo run -p smds_cli -- benchmark ../班加罗尔房地产价格数据集.csv
+cargo run -p smds_cli -- benchmark ../班加罗尔房地产价格数据集.csv disjoint rust
+```
+
+To enable the `rust-multi-she` compatibility backend at compile time:
+
+```bash
+cargo run -p smds_cli --features backend-rust-multi-she -- benchmark ../班加罗尔房地产价格数据集.csv baseline rust
 ```
 
 Next step:

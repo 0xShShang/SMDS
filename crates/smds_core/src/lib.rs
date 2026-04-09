@@ -132,14 +132,7 @@ impl<B> SmdsEngine<B> {
 
 impl<B> SmdsEngine<B>
 where
-    B: TwoPartyMultiSheEngine<
-        PublicParams = multi_she_adapter::LocalPublicParams,
-        Server1SecretKey = multi_she_adapter::LocalSecretKey,
-        Server2SecretKey = multi_she_adapter::LocalSecretKey,
-        Ciphertext = BigInt,
-        PartialCiphertext = BigInt,
-        Plaintext = BigInt,
-    >,
+    B: TwoPartyMultiSheEngine<Ciphertext = BigInt, PartialCiphertext = BigInt, Plaintext = BigInt>,
 {
     pub fn build_offline_bootstrap(
         &self,
@@ -346,13 +339,15 @@ pub struct ProtocolRun {
     pub reference_ranks: Vec<Vec<u64>>,
 }
 
-pub fn benchmark_report(
+pub fn benchmark_report_with_engine<B>(
+    engine: &SmdsEngine<B>,
     config: BenchmarkConfig,
     datasets: &[UserDataset],
     seed: u64,
-) -> BenchmarkReport {
-    let engine: SmdsEngine<LocalMultiSheBackend> =
-        SmdsEngine::new(SmdsParams::baseline_bangalore(config.num_users, config.dataset_size));
+) -> BenchmarkReport
+where
+    B: TwoPartyMultiSheEngine<Ciphertext = BigInt, PartialCiphertext = BigInt, Plaintext = BigInt>,
+{
     let repetitions = config.repetitions.max(1);
 
     let mut total_offline = 0_u128;
@@ -432,4 +427,14 @@ pub fn benchmark_report(
         ],
         correctness,
     }
+}
+
+pub fn benchmark_report(
+    config: BenchmarkConfig,
+    datasets: &[UserDataset],
+    seed: u64,
+) -> BenchmarkReport {
+    let engine: SmdsEngine<LocalMultiSheBackend> =
+        SmdsEngine::new(SmdsParams::baseline_bangalore(config.num_users, config.dataset_size));
+    benchmark_report_with_engine(&engine, config, datasets, seed)
 }

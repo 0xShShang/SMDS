@@ -1,6 +1,6 @@
 use num_bigint::BigInt;
 use num_integer::Integer;
-use num_traits::{One, ToPrimitive};
+use num_traits::One;
 use serde::{Deserialize, Serialize};
 
 pub use smds_types::{PbeRequest, PbeResponse, UserEncryptedResponse};
