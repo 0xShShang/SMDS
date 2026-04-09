@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-# SMDS Workspace
 
 This workspace contains the first reproducible skeleton for the SMDS project.
 
@@ -60,10 +58,3 @@ To enable the `rust-multi-she` compatibility backend at compile time:
 cargo run -p smds_cli --features backend-rust-multi-she -- benchmark ../班加罗尔房地产价格数据集.csv baseline rust
 ```
 
-Next step:
-
-1. Add more benchmark scenarios beyond the Bangalore baseline.
-2. Replace the local backend with a real binding layer when the upstream API is frozen.
-=======
-# SMDS
->>>>>>> 356065fc94e6f087a4cfc72b76b9788f29a66fbf
