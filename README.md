@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SMDS Workspace
 
 This workspace contains the first reproducible skeleton for the SMDS project.
@@ -63,3 +64,6 @@ Next step:
 
 1. Add more benchmark scenarios beyond the Bangalore baseline.
 2. Replace the local backend with a real binding layer when the upstream API is frozen.
+=======
+# SMDS
+>>>>>>> 356065fc94e6f087a4cfc72b76b9788f29a66fbf
