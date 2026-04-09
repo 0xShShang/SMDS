@@ -1,0 +1,15 @@
+[package]
+name = "smds_cli"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde_json = "1"
+smds_bench = { path = "../smds_bench" }
+smds_core = { path = "../smds_core" }
+smds_types = { path = "../smds_types" }
+
+[[bin]]
+name = "smds_cli"
+path = "src/main.rs"
+

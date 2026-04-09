@@ -1,0 +1,21 @@
+[package]
+name = "multi_she_adapter"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = []
+backend-rust-multi-she = ["dep:rust-multi-she"]
+
+[dependencies]
+num-bigint = { version = "0.4", features = ["serde"] }
+num-integer = "0.1"
+num-traits = "0.2"
+rand = "0.8"
+serde = { version = "1", features = ["derive"] }
+thiserror = "1"
+smds_types = { path = "../smds_types" }
+
+[dependencies.rust-multi-she]
+git = "https://github.com/0xShShang/rust-multi-she"
+optional = true

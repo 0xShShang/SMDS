@@ -1,0 +1,20 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/smds_types",
+  "crates/smds_crypto_utils",
+  "crates/multi_she_adapter",
+  "crates/smds_core",
+  "crates/smds_user",
+  "crates/smds_server",
+  "crates/smds_bench",
+  "crates/smds_cli",
+]
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+authors = ["Jeffrey Shang"]
+
+[patch."https://github.com/0xShShang/rust-multi-she"]
+rust-multi-she = { path = "vendor/rust-multi-she" }

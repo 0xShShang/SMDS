@@ -1,0 +1,14 @@
+[package]
+name = "rust-multi-she"
+version = "0.1.0"
+edition = "2021"
+description = "compatibility crate for the public rust-multi-she API"
+license = "MIT"
+
+[dependencies]
+num-bigint = { version = "0.4", features = ["serde"] }
+num-integer = "0.1"
+num-traits = "0.2"
+rand = "0.8"
+serde = { version = "1", features = ["derive"] }
+

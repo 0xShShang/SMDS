@@ -1,0 +1,10 @@
+[package]
+name = "smds_server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+num-bigint = { version = "0.4", features = ["serde"] }
+multi_she_adapter = { path = "../multi_she_adapter" }
+smds_core = { path = "../smds_core" }
+smds_types = { path = "../smds_types" }

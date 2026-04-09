@@ -1,0 +1,9 @@
+[package]
+name = "smds_bench"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+smds_core = { path = "../smds_core" }
+smds_crypto_utils = { path = "../smds_crypto_utils" }
+smds_types = { path = "../smds_types" }
